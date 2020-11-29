@@ -14,9 +14,8 @@ namespace AlgorithmChallenge2
         private static void Main(string[] args)
         {
             const int end = int.MaxValue;
-            long sum = 0;
-            Console.WriteLine(
-                "This program is to compute the sum of all positive prime numbers that are in the C# int data type, \nthat is from 0 - {0:###,###}.",
+            ulong sum = 0;
+            Console.WriteLine("This program is to compute the sum of all positive prime numbers that are in the C# int data type, \nthat is from 0 - {0:###,###}.",
                 int.MaxValue);
             Console.WriteLine("\nPlease wait while I'm calculating. \nThis might take a while....");
             for (var i = 0; i < end; i++)
@@ -25,7 +24,7 @@ namespace AlgorithmChallenge2
                 {
                     if (j == 1)
                     {
-                        sum += i;
+                        sum += (ulong)i;
                     }
                     if (i % j == 0)
                     {
