@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 //Develop a program for a newspaper vendor to determine which newspapers he should collect most copies
 //to maximize his sales for the week based on the previous weeks performance assuming demands and customers preference remains the same.
@@ -16,13 +17,84 @@ namespace WeeklyChallenge
     internal class Program
     {
         private static int _paperCount;
-        private static readonly List<string> Newspapers = new List<string>();
+        private static readonly List<Newspaper> Newspapers = new List<Newspaper>(_paperCount);
 
         private static void Main(string[] args)
         {
-            //GreetVendor();
-            GetNewspaperDetails();
+            GreetVendor();
+            //GetNewspaperDetails();
             //GetWeekDetails();
+            Console.Write("How many brands of newspapers do you sell? ");
+            var validCount = int.TryParse(Console.ReadLine(), out _paperCount);
+
+            while (!validCount)
+            {
+                Console.Write("Please enter a valid number: ");
+                validCount = int.TryParse(Console.ReadLine(), out _paperCount);
+            }
+
+            var newspapers = new List<string>(_paperCount);
+            Console.Write("What are their names? Just type it in then press enter. I'll know when you've given me all of them.\n");
+
+            for (var i = 1; i <= _paperCount; i++)
+            {
+                Console.Write("{0}. ", i);
+                var name = Console.ReadLine();
+                newspapers.Add(name);
+            }
+
+            Console.WriteLine("How many weeks have you sold the papers so far? ");
+            var validWeekCount = int.TryParse(Console.ReadLine(), out var weeksSold);
+
+            while (!validWeekCount)
+            {
+                Console.Write("Please enter a valid number: ");
+                validWeekCount = int.TryParse(Console.ReadLine(), out weeksSold);
+            }
+
+            //var quantities = new List<int>(weeksSold);
+            //var prices = new List<decimal>(weeksSold);
+            var averages = new List<decimal>(weeksSold);
+            foreach (var newspaper in newspapers)
+            {
+                //for (var i = 0; i < weeksSold; i++)
+                //{
+                Console.Write($"Enter the quantity of {newspaper} sold for week 1: ");
+                var quantity1 = int.Parse(Console.ReadLine());
+                //quantities.Add(quantity);
+
+                Console.Write($"Enter the price of {newspaper} sold for week 1: ");
+                var price1 = decimal.Parse(Console.ReadLine());
+                //prices.Add(price);
+                //}
+                Console.Write($"Enter the quantity of {newspaper} sold for week 2: ");
+                var quantity2 = int.Parse(Console.ReadLine());
+                //quantities.Add(quantity);
+
+                Console.Write($"Enter the price of {newspaper} sold for week 2: ");
+                var price2 = decimal.Parse(Console.ReadLine());
+
+                Console.Write($"Enter the quantity of {newspaper} sold for week 3: ");
+                var quantity3 = int.Parse(Console.ReadLine());
+                //quantities.Add(quantity);
+
+                Console.Write($"Enter the price of {newspaper} sold for week 3: ");
+                var price3 = decimal.Parse(Console.ReadLine());
+
+                Console.Write($"Enter the quantity of {newspaper} sold for week 4: ");
+                var quantity4 = int.Parse(Console.ReadLine());
+                //quantities.Add(quantity);
+
+                Console.Write($"Enter the price of {newspaper} sold for week 4: ");
+                var price4 = decimal.Parse(Console.ReadLine());
+                Console.WriteLine();
+                var average = quantity1 * price1 + quantity2 * price2 + quantity3 * price3 + quantity4 * price4 / 4;
+                averages.Add(average);
+            }
+
+            var greatestAverage = averages.Max();
+            var index = averages.FindIndex(average => average.Equals(greatestAverage));
+            Console.WriteLine($"\nThe recommended newspaper to buy is {newspapers[index]}");
         }
 
         public static void GreetVendor()
@@ -49,24 +121,22 @@ namespace WeeklyChallenge
 
             while (!validCount)
             {
-                Console.Write("Please enter a valid number ");
+                Console.Write("Please enter a valid number: ");
                 validCount = int.TryParse(Console.ReadLine(), out _paperCount);
             }
 
-            var newspapers = new List<Newspaper>(_paperCount);
+            //var newspapers = new List<Newspaper>(_paperCount);
 
-            Console.Write(
-                "What are their names? Just type it in then press enter. I'll know when you've given me all of them.\n");
+            Console.Write("What are their names? Just type it in then press enter. I'll know when you've given me all of them.\n");
 
             for (var i = 1; i <= _paperCount; i++)
             {
                 Console.Write("{0}. ", i);
                 var name = Console.ReadLine();
-                Newspapers.Add(name);
-                newspapers.Add(new Newspaper(name));
+                //Newspapers.Add(name);
+                Newspapers.Add(new Newspaper(name));
             }
-
-            Console.WriteLine(newspapers[0].Name);
+            // return newspapers;
         }
 
         public static void GetWeekDetails()
@@ -76,37 +146,58 @@ namespace WeeklyChallenge
 
             while (!validWeekCount)
             {
-                Console.Write("Please enter a valid number to get your answer");
+                Console.Write("Please enter a valid number: ");
                 validWeekCount = int.TryParse(Console.ReadLine(), out weeksSold);
             }
 
-            var quantityList = new List<int>(weeksSold);
-            for (var i = 1; i <= weeksSold; i++)
+            //var quantityList = new List<int>(weeksSold);
+            //var newspapers = GetNewspaperDetails();
+
+            //for (var i = 0; i < newspapers.Count; i++)
+            //{
+            foreach (var newspaper in Newspapers)
             {
-                foreach (var item in Newspapers)
+                for (var i = 0; i < weeksSold; i++)
                 {
-                    Console.Write("Enter the quantity of {0} sold for week {1}: ", item, i);
+                    //foreach (var item in Newspapers)
+                    //{
+                    Console.Write($"Enter the quantity of {newspaper.Name} sold for week {i + 1}: ");
                     var quantity = int.Parse(Console.ReadLine());
-                    quantityList.Add(quantity);
+                    //quantityList.Add(quantity);
+                    //try
+                    //{
+                    newspaper.Quantity[i] = quantity;
+                    //}
+                    //catch (Exception)
+                    //{
+                    //    //ignore
+                    //}
+                    //finally
+                    //{
+                    //    Console.WriteLine(newspaper.Quantity[i]);
+                    //}
+                    // }
                 }
 
-                for (int j = 0; j < Newspapers.Count; j++)
+                for (var j = 0; j < Newspapers.Count; j++)
                 {
-                    Console.WriteLine("Enter the quantity of {0} sold for week {1}: ", Newspapers[j], i);
+                    Console.WriteLine("These are the quantities for {0}: {1}", newspaper.Name, newspaper.Quantity);
                 }
             }
+
+            // Loop through the newspapers and get the quantities
         }
+    }
 
-        public class Newspaper
+    public class Newspaper
+    {
+        public string Name { get; set; }
+        public int[] Quantity { get; set; }
+        public int[] Price { get; set; }
+
+        public Newspaper(string name)
         {
-            public string Name { get; set; }
-            public int[] Quantity { get; set; }
-            public int[] Price { get; set; }
-
-            public Newspaper(string name)
-            {
-                Name = name;
-            }
+            Name = name;
         }
     }
 }

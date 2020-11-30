@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 //Write a C# program to compute the sum of all positive prime numbers
 //that can be in the C# int data type
