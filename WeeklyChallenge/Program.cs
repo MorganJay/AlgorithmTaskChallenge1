@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,7 +11,7 @@ using System.Linq;
 //20          160       32          300           20          220           10          400
 //18          155       27          315.28        35          265.5         13          450.24
 //14          175       21          340           19          290.14        8           400
-// Collect newspapers and names. // final result return newspaper name, and predicted income. average across the 4 weeks.
+// Collect newspapers and names. // final result return newspaper name. average across the 4 weeks.
 
 namespace WeeklyChallenge
 {
@@ -52,49 +53,28 @@ namespace WeeklyChallenge
                 validWeekCount = int.TryParse(Console.ReadLine(), out weeksSold);
             }
 
-            //var quantities = new List<int>(weeksSold);
-            //var prices = new List<decimal>(weeksSold);
             var averages = new List<decimal>(weeksSold);
             foreach (var newspaper in newspapers)
             {
-                //for (var i = 0; i < weeksSold; i++)
-                //{
-                Console.Write($"Enter the quantity of {newspaper} sold for week 1: ");
-                var quantity1 = int.Parse(Console.ReadLine());
-                //quantities.Add(quantity);
+                var individualSales = new List<decimal>(weeksSold);
+                for (var i = 0; i < weeksSold; i++)
+                {
+                    Console.Write($"Enter the quantity of {newspaper} sold for week {i + 1}: ");
+                    var quantity = int.Parse(Console.ReadLine());
 
-                Console.Write($"Enter the price of {newspaper} sold for week 1: ");
-                var price1 = decimal.Parse(Console.ReadLine());
-                //prices.Add(price);
-                //}
-                Console.Write($"Enter the quantity of {newspaper} sold for week 2: ");
-                var quantity2 = int.Parse(Console.ReadLine());
-                //quantities.Add(quantity);
+                    Console.Write($"Enter the price of {newspaper} sold for week {i + 1}: ");
+                    var price = decimal.Parse(Console.ReadLine());
 
-                Console.Write($"Enter the price of {newspaper} sold for week 2: ");
-                var price2 = decimal.Parse(Console.ReadLine());
-
-                Console.Write($"Enter the quantity of {newspaper} sold for week 3: ");
-                var quantity3 = int.Parse(Console.ReadLine());
-                //quantities.Add(quantity);
-
-                Console.Write($"Enter the price of {newspaper} sold for week 3: ");
-                var price3 = decimal.Parse(Console.ReadLine());
-
-                Console.Write($"Enter the quantity of {newspaper} sold for week 4: ");
-                var quantity4 = int.Parse(Console.ReadLine());
-                //quantities.Add(quantity);
-
-                Console.Write($"Enter the price of {newspaper} sold for week 4: ");
-                var price4 = decimal.Parse(Console.ReadLine());
+                    var sales = quantity * price;
+                    individualSales.Add(sales);
+                }
+                averages.Add(individualSales.Average());
                 Console.WriteLine();
-                var average = quantity1 * price1 + quantity2 * price2 + quantity3 * price3 + quantity4 * price4 / 4;
-                averages.Add(average);
             }
 
             var greatestAverage = averages.Max();
             var index = averages.FindIndex(average => average.Equals(greatestAverage));
-            Console.WriteLine($"\nThe recommended newspaper to buy is {newspapers[index]}");
+            Console.WriteLine($"\nThe recommended newspaper to buy is {newspapers[index]}, the average sales being {greatestAverage:C}.");
         }
 
         public static void GreetVendor()
@@ -166,7 +146,7 @@ namespace WeeklyChallenge
                     //quantityList.Add(quantity);
                     //try
                     //{
-                    newspaper.Quantity[i] = quantity;
+                    newspaper.Quantity.Add(quantity);
                     //}
                     //catch (Exception)
                     //{
@@ -192,7 +172,7 @@ namespace WeeklyChallenge
     public class Newspaper
     {
         public string Name { get; set; }
-        public int[] Quantity { get; set; }
+        public List<int> Quantity { get; set; }
         public int[] Price { get; set; }
 
         public Newspaper(string name)
