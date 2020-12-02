@@ -1,6 +1,6 @@
 ﻿using System;
 
-//Write a C# Sharp program to check if a given word starts with 'Sa' and
+//Write a C# Sharp program to check if a given word contains 'sa' and
 //count the numbers of characters in the word that does not include character ‘e’ or ‘m’
 
 namespace AlgorithmChallenge3
@@ -17,9 +17,9 @@ namespace AlgorithmChallenge3
                 word = Console.ReadLine()?.ToLower();     // complicated
 
                 if (string.IsNullOrWhiteSpace(word)) continue; // if the user input is null or consists of space characters, skip all other conditions
-                if (word.StartsWith("sa"))
+                if (word.Contains("sa"))
                 {
-                    Console.WriteLine("That word starts with Sa");
+                    Console.WriteLine("That word contains sa");
                 }
                 else if (word.Length == 1 || word.Length == 2)
                 {

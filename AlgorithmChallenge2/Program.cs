@@ -27,7 +27,6 @@ namespace AlgorithmChallenge2
                     }
                 }
             }
-
             Console.WriteLine("\n\nPhew! After much work from our robots, the sum of all the prime numbers therein is {0:###,###}.", sum);
         }
     }
